@@ -1,9 +1,0 @@
-/home/sk937/cutlass-gemm/build/CMakeFiles/format.dir
-/home/sk937/cutlass-gemm/build/CMakeFiles/edit_cache.dir
-/home/sk937/cutlass-gemm/build/CMakeFiles/rebuild_cache.dir
-/home/sk937/cutlass-gemm/build/examples/CMakeFiles/edit_cache.dir
-/home/sk937/cutlass-gemm/build/examples/CMakeFiles/rebuild_cache.dir
-/home/sk937/cutlass-gemm/build/examples/gemm/CMakeFiles/gemm.dir
-/home/sk937/cutlass-gemm/build/examples/gemm/CMakeFiles/run_gemm.dir
-/home/sk937/cutlass-gemm/build/examples/gemm/CMakeFiles/edit_cache.dir
-/home/sk937/cutlass-gemm/build/examples/gemm/CMakeFiles/rebuild_cache.dir

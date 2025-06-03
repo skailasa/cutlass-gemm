@@ -1,3 +1,0 @@
-# Hashes of file build rules.
-2281c34525078ee50aa94e66e1e646cb CMakeFiles/format
-5f50c2263d01eabfc02d9ecd43da76d8 examples/gemm/CMakeFiles/run_gemm

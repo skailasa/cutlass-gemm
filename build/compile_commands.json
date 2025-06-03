@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/sk937/cutlass-gemm/build/examples/gemm",
-  "command": "/usr/bin/c++  -I/home/sk937/cutlass-gemm/include -I/home/sk937/cutlass-gemm/external/cutlass/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/gemm.dir/main.cpp.o -c /home/sk937/cutlass-gemm/examples/gemm/main.cpp",
-  "file": "/home/sk937/cutlass-gemm/examples/gemm/main.cpp",
-  "output": "examples/gemm/CMakeFiles/gemm.dir/main.cpp.o"
-}
-]
