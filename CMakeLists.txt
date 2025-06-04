@@ -1,9 +1,36 @@
-cmake_minimum_required(VERSION 3.19)
-project(CUTLASS_PRACTICE LANGUAGES CXX CUDA)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+cmake_minimum_required(VERSION 3.15)
 
-find_package(CUDA REQUIRED)
+# Function definitions
 
+# Function to locate spack packages on system
+function(find_spack_package name out_path)
+  execute_process(COMMAND spack location -i ${name} OUTPUT_VARIABLE _path OUTPUT_STRIP_TRAILING_WHITESPACE)
+  set(${out_path} "${_path}" PARENT_SCOPE)
+endfunction()
+
+# Function to import spack installed libraries
+function(import_spack_library pkg_name target_name)
+  find_spack_package(${pkg_name} PKG_PATH)
+  file(GLOB LIBRARY "${PKG_PATH}/lib/*/lib${pkg_name}.so")
+  if (NOT LIBRARY)
+    file(GLOB LIBRARY "${PKG_PATH}/lib/lib${pkg_name}.so")
+  endif()
+  # Make sure that only one file is matched by extracting first hit
+  list(GET LIBRARY 0 LIBRARY)
+
+  set(INCLUDE_DIR "${PKG_PATH}/include")
+
+  add_library(${target_name} SHARED IMPORTED)
+
+  # Setting properties for a library that I'm not building, but CMake is fetching
+  set_target_properties(${target_name} PROPERTIES
+  IMPORTED_LOCATION ${LIBRARY}
+  INTERFACE_INCLUDE_DIRECTORIES ${INCLUDE_DIR}
+  )
+
+endfunction()
+
+project(CutlassGemmApp VERSION 0.0 LANGUAGES CXX CUDA)
 
 # ensure cuda is available
 include(CheckLanguage)
@@ -12,26 +39,14 @@ check_language(CUDA)
 set(CMAKE_CXX_STANDARD 20)
 set(CUDA_COMPUTE_CAPABILITY 86)
 
-# in debug mode, add debug symbols to device code
-add_compile_options("$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:CUDA>>:-G;-src-in-ptx>")
+find_spack_package(cuda CUDA_PATH)
+set(CUDAToolkit_ROOT "${CUDA_PATH}")
+set(CMAKE_PREFIX_PATH "${CUDAToolkit_ROOT};${CMAKE_PREFIX_PATH}")
+set(CMAKE_CUDA_COMPILER "${CUDAToolkit_ROOT}/bin/nvcc")
+find_package(CUDAToolkit REQUIRED)
 
-# Configure header file search paths
-include_directories(${CUDA_INCLUDE_DIRS})
-include_directories(
-  ${PROJECT_SOURCE_DIR}/src
-  ${PROJECT_SOURCE_DIR}/external/cutlass/include
-)
-# Configure the source file path to be compiled
-aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC)
+# Add GEMM library using cutlass
+add_subdirectory(CutlassGemm)
 
-# generate executable
-add_executable(cutlass_gemm cutlass_gemm.cu ${SRC})
-set_target_properties(cutlass_gemm PROPERTIES CUDA_ARCHITECTURES ${CUDA_COMPUTE_CAPABILITY})
-target_link_libraries(cutlass_gemm ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
-
-add_custom_target(run_cutlass_gemm
-  COMMAND ${CMAKE_COMMAND} -E echo "🚀 Running GEMM With CUTLASS..."
-  COMMAND ./cutlass_gemm
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-  DEPENDS cutlass_gemm
-)
+# Add all test scripts
+add_subdirectory(scripts)

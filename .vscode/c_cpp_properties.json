@@ -4,7 +4,7 @@
             "name": "NVidia Workstation",
             "includePath": [
                 "include/",
-                "${workspaceFolder}/include",
+                "${workspaceFolder}/CutlassGemm",
                 "${workspaceFolder}/external/cutlass/include",
                 "${workspaceFolder}/external/cutlass/tools/util/include",
                 "external/cutlass/include/cutlass/",
