@@ -3,11 +3,10 @@
         {
             "name": "NVidia Workstation",
             "includePath": [
-                "include/",
                 "${workspaceFolder}/CutlassGemm",
-                "${workspaceFolder}/external/cutlass/include",
-                "${workspaceFolder}/external/cutlass/tools/util/include",
-                "external/cutlass/include/cutlass/",
+                "${workspaceFolder}/cutlass/include",
+                "${workspaceFolder}/cutlass/tools/util/include",
+                "cutlass/include/cutlass/",
                 "${workspaceFolder}/build",
                 "/usr/include",
                 "/usr/local/include",

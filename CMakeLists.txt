@@ -50,3 +50,20 @@ add_subdirectory(CutlassGemm)
 
 # Add all test scripts
 add_subdirectory(scripts)
+
+# Custom commands
+
+file(GLOB_RECURSE FORMAT_SOURCES
+  "${CMAKE_SOURCE_DIR}/scripts/*.cu"
+  "${CMAKE_SOURCE_DIR}/CutlassGemm/*.cuh"
+)
+
+find_program(CLANG_FORMAT NAMES clang-format)
+if(CLANG_FORMAT)
+  add_custom_target(format
+    COMMAND ${CLANG_FORMAT} -i ${FORMAT_SOURCES}
+    COMMENT "🧼 Running clang-format..."
+  )
+else()
+  message(WARNING "clang-format not found; skipping format target.")
+endif()

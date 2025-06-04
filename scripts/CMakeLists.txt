@@ -6,3 +6,10 @@ $<$<COMPILE_LANGUAGE:CUDA>: --ftz=true -O3 -DNDEBUG --expt-relaxed-constexpr>
 )
 
 target_link_libraries(simple_cutlass_gemm PRIVATE CutlassGemm)
+
+add_custom_target(run_simple_cutlass_gemm
+    COMMAND ${CMAKE_COMMAND} -E echo "🚀 Running Simple CUTLASS GEMM.."
+    COMMAND ./simple_cutlass_gemm
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/scripts
+    DEPENDS simple_cutlass_gemm
+)

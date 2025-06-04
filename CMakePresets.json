@@ -1,0 +1,35 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 15
+    },
+    "configurePresets": [
+      {
+        "name": "default",
+        "hidden": true,
+        "generator": "Unix Makefiles",
+        "binaryDir": "${sourceDir}/build",
+        "cacheVariables": {
+          "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        }
+      },
+      {
+        "name": "nvidia-release",
+        "inherits": "default",
+        "description": "Release Build",
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Release"
+        }
+      }
+    ],
+
+    "buildPresets": [
+        {
+            "name": "nvidia-release",
+            "configurePreset": "nvidia-release",
+            "description": "build NVIDIA release target",
+            "jobs": 16
+        }
+    ]
+}
